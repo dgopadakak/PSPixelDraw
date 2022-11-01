@@ -2,8 +2,38 @@ import java.awt.*;
 
 public class VuLineDrawer implements LineDrawer
 {
+    private final PixelDrawer pd;
+    private int x1, x2, y1, y2;
+    private final Color c;
+
+    public VuLineDrawer(PixelDrawer pd, int x1, int y1, int x2, int y2, Color c)
+    {
+        this.pd = pd;
+        this.x1 = x1;
+        this.x2 = x2;
+        this.y1 = y1;
+        this.y2 = y2;
+        this.c = c;
+    }
+
+    public void setX1(int x1) {
+        this.x1 = x1;
+    }
+
+    public void setX2(int x2) {
+        this.x2 = x2;
+    }
+
+    public void setY1(int y1) {
+        this.y1 = y1;
+    }
+
+    public void setY2(int y2) {
+        this.y2 = y2;
+    }
+
     @Override
-    public void drawLine(PixelDrawer pd, int x1, int y1, int x2, int y2, Color c)
+    public void drawLine()
     {
         if (x2 < x1) {
             x1 += x2;
@@ -18,8 +48,8 @@ public class VuLineDrawer implements LineDrawer
         //Горизонтальные и вертикальные линии не нуждаются в сглаживании
         if (dx == 0 || dy == 0)
         {
-            LineDrawer ld = new DDALineDrawer();
-            ld.drawLine(pd, x1, y1, x2, y2, c);
+            LineDrawer ld = new DDALineDrawer(pd, x1, y1, x2, y2, c);
+            ld.drawLine();
             return;
         }
         float gradient = 0;
