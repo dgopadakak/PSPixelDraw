@@ -18,10 +18,10 @@ public class ArrowDrawer
 
     public void drawArrow(PixelDrawer pd)
     {
-        LineDrawer body = new VuLineDrawer(pd, x1b, y1b, x2b, y2b, c);
-        LineDrawer cursorL = new VuLineDrawer(pd, x2b, y2b, xcL, ycL, c);
+        LineDrawer body = new DDALineDrawer(pd, x1b, y1b, x2b, y2b, c);
+        LineDrawer cursorL = new DDALineDrawer(pd, x2b, y2b, xcL, ycL, c);
         findRightCursorLine();
-        LineDrawer cursorR = new VuLineDrawer(pd, x2b, y2b, xcR, ycR, c);
+        LineDrawer cursorR = new DDALineDrawer(pd, x2b, y2b, xcR, ycR, c);
         body.drawLine();
         cursorL.drawLine();
         cursorR.drawLine();

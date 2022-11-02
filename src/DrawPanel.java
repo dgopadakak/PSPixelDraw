@@ -10,7 +10,7 @@ public class DrawPanel extends JPanel
     private int keyPointNum = 0;
     private int keyPointID = -1;
     private boolean flagShow;
-    private ArrayList<ArrowDrawer> arrowDrawerArrayList;
+    private final ArrayList<ArrowDrawer> arrowDrawerArrayList;
     private int numOfArrows = 0;
 
     private int currX1B, currY1B, currX2B, currY2B, currXC, currYC;
