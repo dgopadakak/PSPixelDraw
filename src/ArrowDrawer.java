@@ -2,16 +2,11 @@ import java.awt.*;
 
 public class ArrowDrawer
 {
-    private final PixelDrawer pd;
-    private LineDrawer body;
-    private LineDrawer cursorL;
-    private LineDrawer cursorR;
     private int x1b, x2b, y1b, y2b, xcL, ycL, xcR, ycR;
     private final Color c;
 
-    public ArrowDrawer(PixelDrawer pd, int x1b, int y1b, int x2b, int y2b, int xcL, int ycL, Color c)
+    public ArrowDrawer(int x1b, int y1b, int x2b, int y2b, int xcL, int ycL, Color c)
     {
-        this.pd = pd;
         this.x1b = x1b;
         this.x2b = x2b;
         this.y1b = y1b;
@@ -21,12 +16,12 @@ public class ArrowDrawer
         this.c = c;
     }
 
-    public void drawArrow()
+    public void drawArrow(PixelDrawer pd)
     {
-        body = new VuLineDrawer(pd, x1b, y1b, x2b, y2b, c);
-        cursorL = new VuLineDrawer(pd, x2b, y2b, xcL, ycL, c);
+        LineDrawer body = new VuLineDrawer(pd, x1b, y1b, x2b, y2b, c);
+        LineDrawer cursorL = new VuLineDrawer(pd, x2b, y2b, xcL, ycL, c);
         findRightCursorLine();
-        cursorR = new VuLineDrawer(pd, x2b, y2b, xcR, ycR, c);
+        LineDrawer cursorR = new VuLineDrawer(pd, x2b, y2b, xcR, ycR, c);
         body.drawLine();
         cursorL.drawLine();
         cursorR.drawLine();

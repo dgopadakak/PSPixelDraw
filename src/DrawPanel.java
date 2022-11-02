@@ -3,14 +3,15 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 public class DrawPanel extends JPanel
 {
     private int keyPointNum = 0;
     private int keyPointID = -1;
-    private boolean flagShow = true;
+    private boolean flagShow;
+    private ArrayList<ArrowDrawer> arrowDrawerArrayList;
+    private int numOfArrows = 0;
 
     private int currX1B, currY1B, currX2B, currY2B, currXC, currYC;
 
@@ -18,7 +19,8 @@ public class DrawPanel extends JPanel
     {
         super();
         this.addMouseListener(new MouseAction());
-        //this.addMouseMotionListener(new MouseMotion());
+        this.addMouseMotionListener(new MouseMotion());
+        arrowDrawerArrayList = new ArrayList<>();
     }
 
     @Override
@@ -28,33 +30,55 @@ public class DrawPanel extends JPanel
         Graphics2D gr = (Graphics2D) gs;
         PixelDrawer pd = new GraphicsPixelDrawer(gr);
 
+        PixelDrawer flag = new GraphicsPixelDrawer(gr);
+
         if (flagShow)
         {
-
+            if (keyPointNum == 1)
+            {
+                for (int i = -5; i < 4; i++)
+                {
+                    for (int j = -5; j < 4; j++)
+                    {
+                        flag.drawPixel(currX1B + i, currY1B + j, Color.blue);
+                    }
+                }
+            }
+            if (keyPointNum == 2)
+            {
+                for (int i = -5; i < 4; i++)
+                {
+                    for (int j = -5; j < 4; j++)
+                    {
+                        flag.drawPixel(currX1B + i, currY1B + j, Color.blue);
+                        flag.drawPixel(currX2B + i, currY2B + j, Color.blue);
+                    }
+                }
+            }
+            if (keyPointNum == 3)
+            {
+                for (int i = -5; i < 4; i++)
+                {
+                    for (int j = -5; j < 4; j++)
+                    {
+                        flag.drawPixel(currX1B + i, currY1B + j, Color.blue);
+                        flag.drawPixel(currX2B + i, currY2B + j, Color.blue);
+                        flag.drawPixel(currXC + i, currYC + j, Color.blue);
+                    }
+                }
+            }
         }
-//        ArrowDrawer arrowDrawer = new ArrowDrawer(pd, 10, 10, 30, 100, 20, 80, Color.black);
-//        arrowDrawer.drawArrow();
 
+        if (keyPointNum == 3 && arrowDrawerArrayList.size() < numOfArrows)
+        {
+            ArrowDrawer arrowDrawer = new ArrowDrawer(/*pd,*/ currX1B, currY1B, currX2B, currY2B, currXC, currYC, Color.black);
+            arrowDrawer.drawArrow(pd);
+        }
 
-//        LineDrawer ld1 = new VuLineDrawer(pd, 40, 80, 100, 300, Color.blue);
-//        ld1.drawLine();
-//
-//        LineDrawer ld2 = new VuLineDrawer(pd, 60, 80, 120, 300, Color.BLACK);
-//        ld2.drawLine();
-//
-//
-//        LineDrawer ld3 = new BresenhamLineDrawer(pd, 100, 80, 160, 300, Color.blue);
-//        ld3.drawLine();
-//
-//        LineDrawer ld4 = new BresenhamLineDrawer(pd, 120, 80, 180, 300, Color.BLACK);
-//        ld4.drawLine();
-//
-//
-//        LineDrawer ld5 = new DDALineDrawer(pd, 160, 80, 220, 300, Color.blue);
-//        ld5.drawLine();
-//
-//        LineDrawer ld6 = new DDALineDrawer(pd, 180, 80, 240, 300, Color.BLACK);
-//        ld6.drawLine();
+        for (ArrowDrawer arrowDrawer : arrowDrawerArrayList)
+        {
+            arrowDrawer.drawArrow(pd);
+        }
     }
 
     class MouseAction extends MouseAdapter
@@ -62,20 +86,23 @@ public class DrawPanel extends JPanel
         @Override
         public void mouseClicked(MouseEvent e)
         {
-            // Щелкните левую кнопку мыши
             if (e.getButton() == MouseEvent.BUTTON1)
             {
                 if (keyPointNum == 0)
                 {
+                    numOfArrows++;
+                    flagShow = true;
                     currX1B = e.getX();
                     currY1B = e.getY();
                     keyPointNum++;
+                    repaint();
                 }
                 else if (keyPointNum == 1)
                 {
                     currX2B = e.getX();
                     currY2B = e.getY();
                     keyPointNum++;
+                    repaint();
                 }
                 else if (keyPointNum == 2)
                 {
@@ -84,56 +111,66 @@ public class DrawPanel extends JPanel
                     keyPointNum++;
                     repaint();
                 }
-
-//                if (keyPointNum < 3) {
-//                    double x = e.getX();
-//                    double y = e.getY();
-//                    keyPointP[keyPointNum] = new Point2D.Double(x, y);
-//                    keyPointE[keyPointNum] = new Ellipse2D.Double(x - 4, y - 4, 8, 8);
-//                    keyPointNum++;
-//                    repaint();
-//                }
-            } // Щелкните правой кнопкой мыши
+            }
             else if (e.getButton() == MouseEvent.BUTTON3)
             {
-                flagShow = false; // скрыть силу синей помощи, но на самом деле не удаляет
-                repaint();
+                if (keyPointNum == 3)
+                {
+                    arrowDrawerArrayList.add(new ArrowDrawer( currX1B, currY1B, currX2B, currY2B, currXC, currYC, Color.black));
+                    flagShow = false;
+                    keyPointNum = 0;
+                    repaint();
+                }
             }
         }
 
-//        @Override
-//        public void mousePressed(MouseEvent e)
-//        {
-//            // Нажмите мышь, чтобы определить, является ли она ключевой точкой.
-//            for (int i = 0; i < keyPointNum; i++)
-//            {
-//                if (keyPointE[i].contains((Point2D) e.getPoint()))
-//                {
-//                    keyPointID = i;
-//                    break;
-//                }
-//                else
-//                {
-//                    keyPointID = -1;
-//                }
-//            }
-//        }
+        @Override
+        public void mousePressed(MouseEvent e)
+        {
+            int x = e.getX();
+            int y = e.getY();
+            if (x-4 < currX1B && currX1B < x+4 && y-4 < currY1B && currY1B < y+4)
+            {
+                keyPointID = 1;
+            }
+            else if (x-4 < currX2B && currX2B < x+4 && y-4 < currY2B && currY2B < y+4)
+            {
+                keyPointID = 2;
+            }
+            else if (x-4 < currXC && currXC < x+4 && y-4 < currYC && currYC < y+4)
+            {
+                keyPointID = 3;
+            }
+            else
+            {
+                keyPointID = -1;
+            }
+        }
     }
 
-//    class MouseMotion extends MouseMotionAdapter
-//    {
-//        @Override
-//        public void mouseDragged(MouseEvent e)
-//        {
-//            // Клавиша перетаскивания мыши
-//            if (keyPointID != -1)
-//            {
-//                double x = e.getX();
-//                double y = e.getY();
-//                keyPointP[keyPointID] = new Point2D.Double(x, y);
-//                keyPointE[keyPointID] = new Ellipse2D.Double(x - 4, y - 4, 8, 8);
-//                repaint();
-//            }
-//        }
-//    }
+    class MouseMotion extends MouseMotionAdapter
+    {
+        @Override
+        public void mouseDragged(MouseEvent e)
+        {
+            if (keyPointID == 1)
+            {
+                currX1B = e.getX();
+                currY1B = e.getY();
+                repaint();
+            }
+            else if (keyPointID == 2)
+            {
+                currX2B = e.getX();
+                currY2B = e.getY();
+                repaint();
+            }
+            else if (keyPointID == 3)
+            {
+                currXC = e.getX();
+                currYC = e.getY();
+                repaint();
+            }
+        }
+    }
 }
