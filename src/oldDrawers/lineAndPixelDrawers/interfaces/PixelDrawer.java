@@ -1,3 +1,5 @@
+package oldDrawers.lineAndPixelDrawers.interfaces;
+
 import java.awt.*;
 
 public interface PixelDrawer

@@ -1,3 +1,8 @@
+package oldDrawers;
+
+import oldDrawers.lineAndPixelDrawers.GraphicsPixelDrawer;
+import oldDrawers.lineAndPixelDrawers.interfaces.PixelDrawer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -5,7 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 
-public class DrawPanel extends JPanel
+public class DrawPanelForArrows extends JPanel
 {
     private int keyPointNum = 0;
     private int keyPointID = -1;
@@ -15,7 +20,7 @@ public class DrawPanel extends JPanel
 
     private int currX1B, currY1B, currX2B, currY2B, currXC, currYC;
 
-    public DrawPanel()
+    public DrawPanelForArrows()
     {
         super();
         this.addMouseListener(new MouseAction());
@@ -71,7 +76,7 @@ public class DrawPanel extends JPanel
 
         if (keyPointNum == 3 && arrowDrawerArrayList.size() < numOfArrows)
         {
-            ArrowDrawer arrowDrawer = new ArrowDrawer(/*pd,*/ currX1B, currY1B, currX2B, currY2B, currXC, currYC, Color.black);
+            ArrowDrawer arrowDrawer = new ArrowDrawer(currX1B, currY1B, currX2B, currY2B, currXC, currYC, Color.black);
             arrowDrawer.drawArrow(pd);
         }
 

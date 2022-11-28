@@ -1,4 +1,4 @@
-import java.awt.*;
+package oldDrawers.lineAndPixelDrawers.interfaces;
 
 public interface LineDrawer
 {

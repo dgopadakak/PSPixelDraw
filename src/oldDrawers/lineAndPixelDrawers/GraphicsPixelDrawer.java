@@ -1,3 +1,7 @@
+package oldDrawers.lineAndPixelDrawers;
+
+import oldDrawers.lineAndPixelDrawers.interfaces.PixelDrawer;
+
 import java.awt.*;
 
 public class GraphicsPixelDrawer implements PixelDrawer

@@ -1,3 +1,9 @@
+package oldDrawers;
+
+import oldDrawers.lineAndPixelDrawers.DDALineDrawer;
+import oldDrawers.lineAndPixelDrawers.interfaces.LineDrawer;
+import oldDrawers.lineAndPixelDrawers.interfaces.PixelDrawer;
+
 import java.awt.*;
 
 public class ArrowDrawer

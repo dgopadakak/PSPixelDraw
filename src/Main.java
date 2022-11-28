@@ -1,3 +1,5 @@
+import oldDrawers.DrawPanelForArrows;
+
 import javax.swing.*;
 
 public class Main
@@ -5,7 +7,7 @@ public class Main
     public static void main(String[] args)
     {
         JFrame frame = new JFrame();
-        DrawPanel panel = new DrawPanel();
+        DrawPanelForArrows panel = new DrawPanelForArrows();
         frame.add(panel);
 
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

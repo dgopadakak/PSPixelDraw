@@ -1,40 +1,13 @@
+package oldDrawers.lineAndPixelDrawers;
+
+import oldDrawers.lineAndPixelDrawers.interfaces.LineDrawer;
+import oldDrawers.lineAndPixelDrawers.interfaces.PixelDrawer;
+
 import java.awt.*;
 
-public class BresenhamLineDrawer implements LineDrawer
-{
-    private final PixelDrawer pd;
-    private int x1, x2, y1, y2;
-    private final Color c;
-
-    public BresenhamLineDrawer(PixelDrawer pd, int x1, int y1, int x2, int y2, Color c)
-    {
-        this.pd = pd;
-        this.x1 = x1;
-        this.x2 = x2;
-        this.y1 = y1;
-        this.y2 = y2;
-        this.c = c;
-    }
-
-    public void setX1(int x1) {
-        this.x1 = x1;
-    }
-
-    public void setX2(int x2) {
-        this.x2 = x2;
-    }
-
-    public void setY1(int y1) {
-        this.y1 = y1;
-    }
-
-    public void setY2(int y2) {
-        this.y2 = y2;
-    }
-
+public record BresenhamLineDrawer(PixelDrawer pd, int x1, int y1, int x2, int y2, Color c) implements LineDrawer {
     @Override
-    public void drawLine()
-    {
+    public void drawLine() {
         int x, y, dx, dy, incx, incy, pdx, pdy, es, el, err;
 
         dx = x2 - x1;//проекция на ось икс
@@ -69,8 +42,7 @@ public class BresenhamLineDrawer implements LineDrawer
             pdy = 0;
             es = dy;
             el = dx;
-        }
-        else//случай, когда прямая скорее "высокая", чем длинная, т.е. вытянута по оси y
+        } else//случай, когда прямая скорее "высокая", чем длинная, т.е. вытянута по оси y
         {
             pdx = 0;
             pdy = incy;
@@ -80,21 +52,18 @@ public class BresenhamLineDrawer implements LineDrawer
 
         x = x1;
         y = y1;
-        err = el/2;
+        err = el / 2;
         pd.drawPixel(x, y, c);  // ставим первую точку
         //все последующие точки возможно надо сдвигать, поэтому первую ставим вне цикла
 
         for (int t = 0; t < el; t++)//идём по всем точкам, начиная со второй и до последней
         {
             err -= es;
-            if (err < 0)
-            {
+            if (err < 0) {
                 err += el;
                 x += incx;  // сдвинуть прямую (сместить вверх или вниз, если цикл проходит по иксам)
                 y += incy;  // или сместить влево-вправо, если цикл проходит по y
-            }
-            else
-            {
+            } else {
                 x += pdx;   // продолжить тянуть прямую дальше, т.е. сдвинуть влево или вправо, если
                 y += pdy;   // цикл идёт по иксу; сдвинуть вверх или вниз, если по y
             }
