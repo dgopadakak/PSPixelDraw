@@ -12,11 +12,11 @@ import java.awt.*;
 public class SunDrawer
 {
     private final RealPoint rpc;
-    private int r, n, l;
-    private double aCorr;
+    private final int n;
+    private final double aCorr, r, l;
     private final Color c;
 
-    public SunDrawer(RealPoint rpc, int r, int n, double aCorr, int l, Color c)
+    public SunDrawer(RealPoint rpc, double r, int n, double aCorr, double l, Color c)
     {
         this.rpc = rpc;
         this.r = r;

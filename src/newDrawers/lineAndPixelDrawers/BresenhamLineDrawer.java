@@ -1,7 +1,5 @@
 package newDrawers.lineAndPixelDrawers;
 
-
-
 import newDrawers.lineAndPixelDrawers.interfaces.LineDrawer;
 import newDrawers.lineAndPixelDrawers.interfaces.PixelDrawer;
 import points.RealPoint;
